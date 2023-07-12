@@ -1,35 +1,39 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import React, { useState } from 'react';
+import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
+import ExcelTable from './pages/ExcelTable';
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [file, setFile] = useState<File | null>(null);
+
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const selectedFile = event.target.files && event.target.files[0];
+    if (selectedFile) {
+      setFile(selectedFile);
+    }
+  };
 
   return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    <Router>
+      <Routes>
+        <Route path="/" element={<Home handleFileChange={handleFileChange} file={file} />} />
+        <Route path="/tabla" element={<ExcelTable file={file} />} />
+      </Routes>
+    </Router>
+  );
 }
 
-export default App
+function Home({ handleFileChange, file }: { handleFileChange: (event: React.ChangeEvent<HTMLInputElement>) => void, file: File | null }) {
+  return (
+    <div>
+      <h1>Home</h1>
+      <input type="file" onChange={handleFileChange} />
+      {file && (
+        <Link to="/tabla">
+          <button>Ir a la tabla</button>
+        </Link>
+      )}
+    </div>
+  );
+}
+
+export default App;
