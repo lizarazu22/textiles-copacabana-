@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
-import * as ExcelJS from 'exceljs';
-import { Route, Routes } from 'react-router-dom';
+import { useEffect, useState } from "react";
+import * as ExcelJS from "exceljs";
+import { AppLayout } from "../layouts/AppLayout";
 
 interface Props {
   file: File | null;
@@ -36,20 +36,22 @@ function ExcelTable({ file }: Props) {
   }, [file]);
 
   return (
-    <div>
-      <h1>Tabla</h1>
-      <table>
-        <tbody>
-          {data.map((row, rowIndex) => (
-            <tr key={rowIndex}>
-              {row.map((cell, cellIndex) => (
-                <td key={cellIndex}>{cell}</td>
-              ))}
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
+    <AppLayout>
+      <div>
+        <h1>Tabla</h1>
+        <table>
+          <tbody>
+            {data.map((row, rowIndex) => (
+              <tr key={rowIndex}>
+                {row.map((cell, cellIndex) => (
+                  <td key={cellIndex}>{cell}</td>
+                ))}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </AppLayout>
   );
 }
 
